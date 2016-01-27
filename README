@@ -16,7 +16,6 @@ docker and docker-compose
 git clone https://zorino@bitbucket.org/zorino/centos-intermine.git
 cd centos-intermine
 docker-compose up
-
 ```
 
 To build the demo malariamine demo application :
@@ -29,4 +28,3 @@ xdg-open http://localhost:8080/malariamine
 #### Bootstrap an existing intermine database
 
 COMING SOON
-
