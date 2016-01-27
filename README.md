@@ -10,15 +10,13 @@ docker and docker-compose
 
 ### Installing
 
-#### Bootstrap the demo intermine database (malariamine)
-
 ```
 git clone https://zorino@bitbucket.org/zorino/centos-intermine.git
 cd centos-intermine
 docker-compose up
 ```
 
-To build the demo malariamine demo application :
+#### Bootstrap the demo intermine database (malariamine)
 
 ```
 docker exec centosintermine_intermine-webapp_1 bootstrap-intermine-demo.sh
