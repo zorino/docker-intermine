@@ -1,0 +1,16 @@
+intermine-webapp:
+  build: .
+  dockerfile: Dockerfile.webapp
+  ports:
+   - "8080:8080"
+  volumes_from:
+   - intermine-data
+  links:
+   - postgres
+intermine-data:
+  image: centos:centos7
+  volumes:
+    - /data
+  entrypoint: ["tail", "-f", "/dev/null"]
+postgres:
+  image: postgres
