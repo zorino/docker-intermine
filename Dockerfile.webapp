@@ -5,7 +5,7 @@ FROM centos:centos7
 RUN yum update -y && yum install -y which git java-1.8* postgresql-server \
     postgresql-contrib  perl-libxml-perl perl-Text-Glob perl-Date-Manip
 RUN cd /opt \
- && curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz
+ && curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz \
     | tar xvz \
  && cd /opt; curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
     | tar xvz \
