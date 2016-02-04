@@ -2,28 +2,28 @@
 FROM centos:centos7
 
 # Install intermine dependencies
-RUN yum update -y
-RUN yum install -y which git java-1.8* postgresql-server postgresql-contrib perl-libxml-perl perl-Text-Glob perl-Date-Manip
-RUN cd /opt; \
-    curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz \
-    | tar xvz
-RUN cd /opt; \
-    curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
-    | tar xvz; \
-    mv apache-ant-1.8.4 ant
+RUN yum update -y && yum install -y which git java-1.8* postgresql-server \
+ && postgresql-contrib  perl-libxml-perl perl-Text-Glob perl-Date-Manip
+RUN cd /opt \
+ && curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.30/bin/apache-tomcat-8.0.30.tar.gz
+    | tar xvz \
+ && cd /opt; curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
+    | tar xvz \
+ && mv apache-ant-1.8.4 ant
 
 # Configs
-COPY configs/tomcat-users.xml /opt/apache-tomcat-8.0.30/conf/tomcat-users.xml
-COPY configs/server.xml /opt/apache-tomcat-8.0.30/conf/server.xml
-COPY configs/context.xml /opt/apache-tomcat-8.0.30/conf/context.xml
+COPY configs/*.xml /opt/apache-tomcat-8.0.30/conf/
 COPY utils /opt/utils
 
 # Create volume and environment var
 VOLUME /data
-ENV HOME /data
-ENV CATALINA_OUT /data/catalina.logs
-ENV PATH /opt/utils:/opt/ant/bin:$PATH
-ENV ANT_HOME /opt/ant
+ENV HOME=/data \
+    CATALINA_OUT=/data/catalina.logs \
+    ANT_HOME=/opt/ant \
+    ANT_OPTS="-Dfile.encoding=utf-8" \
+    JAVA_OPTS="$JAVA_OPTS -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true" \
+    PSQL_HOST=postgres \
+    PATH=/opt/utils:/opt/ant/bin:$PATH
 
 # Exec on start
 ENTRYPOINT ["intermine-entry.sh"]

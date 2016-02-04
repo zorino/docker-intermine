@@ -6,14 +6,15 @@
 
 function postgres_bootstrap {
     echo "Creating postgres database.."
-    psql -U postgres -h postgres -p 5432 -c "CREATE USER interminer WITH PASSWORD 'interminer0123';"
-    psql -U postgres -h postgres -p 5432 -c "ALTER USER interminer WITH SUPERUSER;"
+
+    psql -U postgres -h postgres -p 5432 -c "CREATE USER $PSQL_USER WITH PASSWORD '$PSQL_PWD';"
+    psql -U postgres -h postgres -p 5432 -c "ALTER USER $PSQL_USER WITH SUPERUSER;"
     psql -U postgres -h postgres -p 5432 -c "CREATE DATABASE malariamine;"
     psql -U postgres -h postgres -p 5432 -c "CREATE DATABASE \"items-malariamine\";"
     psql -U postgres -h postgres -p 5432 -c "CREATE DATABASE \"userprofile-malariamine\";"
-    psql -U postgres -h postgres -p 5432 -c "GRANT ALL PRIVILEGES ON DATABASE malariamine to interminer;"
-    psql -U postgres -h postgres -p 5432 -c "GRANT ALL PRIVILEGES ON DATABASE \"items-malariamine\" to interminer;"
-    psql -U postgres -h postgres -p 5432 -c "GRANT ALL PRIVILEGES ON DATABASE \"userprofile-malariamine\" to interminer;"
+    psql -U postgres -h postgres -p 5432 -c "GRANT ALL PRIVILEGES ON DATABASE malariamine to $PSQL_USER;"
+    psql -U postgres -h postgres -p 5432 -c "GRANT ALL PRIVILEGES ON DATABASE \"items-malariamine\" to $PSQL_USER;"
+    psql -U postgres -h postgres -p 5432 -c "GRANT ALL PRIVILEGES ON DATABASE \"userprofile-malariamine\" to $PSQL_USER;"
 }
 
 
@@ -43,11 +44,11 @@ tar xvf malaria-data.tar.gz
 # setup config and postgres
 mkdir /root/.intermine/
 cp intermine/bio/tutorial/malariamine.properties /root/.intermine/
-sed -i 's/=localhost/=postgres/g' /root/.intermine/malariamine.properties
-sed -i 's/PSQL_USER/interminer/g' /root/.intermine/malariamine.properties
-sed -i 's/PSQL_PWD/interminer0123/g' /root/.intermine/malariamine.properties
-sed -i 's/TOMCAT_USER/tomcat/g' /root/.intermine/malariamine.properties
-sed -i 's/TOMCAT_PWD/tomcat/g' /root/.intermine/malariamine.properties
+sed -i "s/=localhost/=$PSQL_HOST/g" /root/.intermine/malariamine.properties
+sed -i "s/PSQL_USER/$PSQL_USER/g" /root/.intermine/malariamine.properties
+sed -i "s/PSQL_PWD/$PSQL_PWD/g" /root/.intermine/malariamine.properties
+sed -i "s/TOMCAT_USER/$TOMCAT_USER/g" /root/.intermine/malariamine.properties
+sed -i "s/TOMCAT_PWD/$TOMCAT_PWD/g" /root/.intermine/malariamine.properties
 
 postgres_bootstrap
 

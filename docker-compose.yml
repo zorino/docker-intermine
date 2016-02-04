@@ -3,6 +3,12 @@ intermine-webapp:
   dockerfile: Dockerfile.webapp
   ports:
    - "8080:8080"
+  environment:
+   - PSQL_USER=interminer
+   - PSQL_PWD=interminer0312
+   - TOMCAT_USER=tomcat
+   - TOMCAT_PWD=tomcat0312
+   - DB_NAME=mymine
   volumes_from:
    - intermine-data
   links:
