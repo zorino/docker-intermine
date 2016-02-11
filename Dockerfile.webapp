@@ -1,6 +1,9 @@
 # Linux OS
 FROM centos:centos7
 
+# Maintener
+MAINTAINER zorino <maximilien1er@gmail.com>
+
 # Install intermine dependencies
 RUN yum update -y && yum install -y which git java-1.8* postgresql-server \
     postgresql-contrib  perl-libxml-perl perl-Text-Glob perl-Date-Manip
@@ -30,6 +33,3 @@ ENTRYPOINT ["intermine-entry.sh"]
 
 # Expose Default Port
 EXPOSE 8080
-
-# Maintener
-MAINTAINER zorino <maximilien1er@gmail.com>
