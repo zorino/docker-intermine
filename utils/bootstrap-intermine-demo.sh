@@ -1,8 +1,8 @@
 #!/bin/bash
 
-
 # change user
 #su - interminer << EOF
+date=`date --iso-8601`
 
 function postgres_bootstrap {
     echo "Creating postgres database.."
@@ -18,7 +18,7 @@ function postgres_bootstrap {
 }
 
 
-export ANT_OPTS=-Dfile.encoding=utf-8
+#export ANT_OPTS=-Dfile.encoding=utf-8
 
 cd ~
 
@@ -31,6 +31,7 @@ else
         git pull
 fi
 
+# malariamine project dir
 ./bio/scripts/make_mine MalariaMine
 cd ~/intermine/malariamine
 cp ../bio/tutorial/project.xml .
@@ -42,18 +43,26 @@ cp ./intermine/bio/tutorial/malaria-data.tar.gz .
 tar xvf malaria-data.tar.gz
 
 # setup config and postgres
-mkdir /root/.intermine/
-cp intermine/bio/tutorial/malariamine.properties /root/.intermine/
-sed -i "s/=localhost/=$PSQL_HOST/g" /root/.intermine/malariamine.properties
-sed -i "s/PSQL_USER/$PSQL_USER/g" /root/.intermine/malariamine.properties
-sed -i "s/PSQL_PWD/$PSQL_PWD/g" /root/.intermine/malariamine.properties
-sed -i "s/TOMCAT_USER/$TOMCAT_USER/g" /root/.intermine/malariamine.properties
-sed -i "s/TOMCAT_PWD/$TOMCAT_PWD/g" /root/.intermine/malariamine.properties
+mkdir .intermine/
+cp intermine/bio/tutorial/malariamine.properties .intermine/
 
+sed -i "s/=localhost/=$PSQL_HOST/g" .intermine/malariamine.properties
+sed -i "s/PSQL_USER/$PSQL_USER/g" .intermine/malariamine.properties
+sed -i "s/PSQL_PWD/$PSQL_PWD/g" .intermine/malariamine.properties
+sed -i "s/TOMCAT_USER/$TOMCAT_USER/g" .intermine/malariamine.properties
+sed -i "s/TOMCAT_PWD/$TOMCAT_PWD/g" .intermine/malariamine.properties
+
+# since intermine will look in /root/ directory (need a fix?)
+# even if HOME != /root
+cd /root/
+ln -s /data/.intermine .
+cd /data
+
+# bootstrap postgres
 postgres_bootstrap
 
 # build malariamine
-cd ~/intermine/malariamine/dbmodel
+cd /data/intermine/malariamine/dbmodel
 ant clean build-db
 cd ../integrate
 ant -Dsource=uniprot-malaria -v
@@ -66,3 +75,10 @@ ant -v
 cd ../webapp
 ant build-db-userprofile
 ant default remove-webapp release-webapp
+
+# create psql dump
+mkdir /data/intermine-psql-dump/
+cd /data/intermine/malariamine/
+../bio/scripts/project_build -b -v localhost /data/intermine-psql-dump/$DB_NAME.$date.dump
+cd /data/intermine-psql-dump/
+ln -s $DB_NAME.$date.dump.final latest.dump
