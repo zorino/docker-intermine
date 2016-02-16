@@ -1,22 +1,24 @@
-intermine-webapp:
+webapp:
   build: .
   dockerfile: Dockerfile.webapp
   ports:
-   - "8080:8080"
+   - "8088:8088"
   environment:
    - PSQL_USER=interminer
    - PSQL_PWD=interminer0312
    - TOMCAT_USER=tomcat
    - TOMCAT_PWD=tomcat0312
-   - DB_NAME=mymine
+   - TOMCAT_PORT=8088
+   - PSQL_DB_NAME=malariamine
+   - DB_NAME=malariamine
   volumes_from:
-   - intermine-data
+   - data
   links:
    - postgres
-intermine-data:
+data:
   image: centos:centos7
   volumes:
-    - /data
+    - ./malariamine:/data
   entrypoint: ["tail", "-f", "/dev/null"]
 postgres:
   image: postgres
