@@ -32,8 +32,8 @@ data:
 The host directory [malariamine] needs :
 
 * [intermine/malariamine/] : your mine project repository inside intermine/ project's folder :
-  * see https://github.com/yeastgenome/intermine
-  * see https://github.com/FlyMine/intermine
+    * see https://github.com/yeastgenome/intermine
+    * see https://github.com/FlyMine/intermine
 * [.intermine/yeastmine.properties] : intermine properties
 * [intermine-psql-dump/latest.dump] : postgres dump to be loaded
 
