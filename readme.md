@@ -22,6 +22,7 @@ xdg-open http://localhost:8088/malariamine
 #### Bootstrap an existing intermine database
 
 To bootstrap an existing container, you will need a directory that you will mount on the data volume container - as the volumes directive in the docker-compose file shows [malariamine folder] :
+
 ```
 data:
   image: centos:centos7
@@ -34,13 +35,12 @@ The host directory [malariamine] needs :
 * [intermine/malariamine/] : your mine project repository inside intermine/ project's folder :
     * see https://github.com/yeastgenome/intermine
     * see https://github.com/FlyMine/intermine
-* [.intermine/yeastmine.properties] : intermine properties
+* [.intermine/malariamine.properties] : intermine properties
 * [intermine-psql-dump/latest.dump] : postgres dump to be loaded
 
 
-Example for yeastmine :
+Example of a directory for yeastmine :
 
-```
 yeastmine-prod1/
 ├── catalina.logs
 ├── *intermine*
@@ -67,12 +67,10 @@ yeastmine-prod1/
 │   └── *yeastmine*
 ├── *.intermine*
 │   └── yeastmine.properties
-├── *intermine-psql-dump*
-│   ├── *latest.dump* -> yeastmine-prod1.2016-01-11.dump.final
-│   ├── yeastmine-prod1.2016-01-11.dump.final -> yeastmine-prod1-dump-Jan-11-2016.final
-│   └── yeastmine-prod1-dump-Jan-11-2016.final
-
-```
+└── *intermine-psql-dump*
+    ├── *latest.dump* -> yeastmine-prod1.2016-01-11.dump.final
+    ├── yeastmine-prod1.2016-01-11.dump.final -> yeastmine-prod1-dump-Jan-11-2016.final
+    └── yeastmine-prod1-dump-Jan-11-2016.final
 
 
 Launch the containers for yeastmine :
