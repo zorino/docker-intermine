@@ -43,7 +43,7 @@ Example of a directory for yeastmine :
 ```
 yeastmine-prod1/
 ├── catalina.logs
-├── <pre><b>intermine</b></pre>
+├── intermine
 │   ├── bio
 │   ├── biotestmine
 │   ├── .classpath
@@ -65,10 +65,10 @@ yeastmine-prod1/
 │   ├── .travis.yml
 │   ├── xenmine
 │   └── *yeastmine*
-├── <pre><b>.intermine</b></pre>
+├── *.intermine*
 │   └── yeastmine.properties
-└── <pre><b>intermine-psql-dump</b></pre>
-    ├── <pre><b>latest.dump</b></pre> -> yeastmine-prod1.2016-01-11.dump.final
+└── *intermine-psql-dump*
+    ├── *latest.dump* -> yeastmine-prod1.2016-01-11.dump.final
     ├── yeastmine-prod1.2016-01-11.dump.final -> yeastmine-prod1-dump-Jan-11-2016.final
     └── yeastmine-prod1-dump-Jan-11-2016.final
 ```
