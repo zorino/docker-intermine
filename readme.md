@@ -40,10 +40,10 @@ The host directory [malariamine] needs :
 
 
 Example of a directory for yeastmine :
-
+```
 yeastmine-prod1/
 ├── catalina.logs
-├── *intermine*
+├── <pre><b>intermine</b></pre>
 │   ├── bio
 │   ├── biotestmine
 │   ├── .classpath
@@ -65,13 +65,13 @@ yeastmine-prod1/
 │   ├── .travis.yml
 │   ├── xenmine
 │   └── *yeastmine*
-├── *.intermine*
+├── <pre><b>.intermine</b></pre>
 │   └── yeastmine.properties
-└── *intermine-psql-dump*
-    ├── *latest.dump* -> yeastmine-prod1.2016-01-11.dump.final
+└── <pre><b>intermine-psql-dump</b></pre>
+    ├── <pre><b>latest.dump</b></pre> -> yeastmine-prod1.2016-01-11.dump.final
     ├── yeastmine-prod1.2016-01-11.dump.final -> yeastmine-prod1-dump-Jan-11-2016.final
     └── yeastmine-prod1-dump-Jan-11-2016.final
-
+```
 
 Launch the containers for yeastmine :
 
