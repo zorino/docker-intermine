@@ -31,7 +31,7 @@ data:
 
 The host directory [malariamine] needs :
 
-* [intermine/malariamine/] : your mine project repository inside intermine/ project's folder
+* [intermine/malariamine/] : your mine project repository inside intermine/ project's folder :
   * see https://github.com/yeastgenome/intermine
   * see https://github.com/FlyMine/intermine
 * [.intermine/yeastmine.properties] : intermine properties
