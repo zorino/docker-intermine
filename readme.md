@@ -8,7 +8,7 @@ Docker-compose project to build an intermine container instance.
 
 docker and docker-compose
 
-### Installing malariamine demo
+### Install malariamine demo
 
 This will build the malariamine demo project from 3 containers.
 
@@ -19,7 +19,7 @@ docker-compose -p malariamine up
 xdg-open http://localhost:8088/malariamine
 ```
 
-#### Bootstrap an existing intermine database
+### Install a Mine from postgres dump
 
 To bootstrap an existing container, you will need a directory that you will mount on the data volume container - as the volumes directive in the docker-compose file shows [malariamine folder] :
 
