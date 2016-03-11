@@ -79,6 +79,6 @@ Launch the containers for yeastmine :
 
 ```
 docker-compose -p yeastmine up
-# wait for the restore ..
+# wait for the postgre database to restore ..
 xdg-open http://localhost:8088/yeastmine
 ```
