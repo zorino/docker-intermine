@@ -13,7 +13,7 @@ docker and docker-compose
 This will build the malariamine demo project from 3 containers.
 
 ```
-git clone https://zorino@bitbucket.org/zorino/docker-intermine.git
+git clone https://github.com/zorino/docker-intermine.git
 cd docker-intermine
 docker-compose -p malariamine up
 xdg-open http://localhost:8088/malariamine
