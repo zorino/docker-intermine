@@ -9,7 +9,7 @@ RUN yum update -y && yum install -y which git java-1.8.0-openjdk java-1.8.0-open
     perl-libxml-perl perl-Text-Glob perl-Date-Manip \
  && yum clean all
 RUN cd /opt \
- && curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.32/bin/apache-tomcat-8.0.32.tar.gz \
+ && curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.33/bin/apache-tomcat-8.0.33.tar.gz \
     | tar xvz \
  && mv apache-tomcat-8.0.32 tomcat \
  && cd /opt; curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
