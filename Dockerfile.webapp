@@ -1,34 +1,38 @@
 # Linux OS
 FROM centos:centos7
 
+# Fork of docker-intermine by zorino <maximilien1er@gmail.com>
 # Maintener
-MAINTAINER zorino <maximilien1er@gmail.com>
+MAINTAINER gcornut <gcornut@gmail.com>
 
-# Install intermine dependencies
-RUN yum update -y && yum install -y which git java-1.8.0-openjdk java-1.8.0-openjdk-devel postgresql \
-    perl-libxml-perl perl-Text-Glob perl-Date-Manip \
+# Update & install java & postgres
+RUN yum update -y \
+ && yum install -y which java-1.7.0-openjdk java-1.7.0-openjdk-devel postgresql \
  && yum clean all
+# Install tomcat
 RUN cd /opt \
- && curl http://mirrors.ocf.berkeley.edu/apache/tomcat/tomcat-8/v8.0.33/bin/apache-tomcat-8.0.33.tar.gz \
+ && curl http://apache.mindstudios.com/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz \
     | tar xvz \
- && mv apache-tomcat-8.0.33 tomcat \
- && cd /opt; curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
+ && mv apache-tomcat-7.0.70 tomcat
+# Install ant
+RUN cd /opt \
+ && curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
     | tar xvz \
  && mv apache-ant-1.8.4 ant
 
 # Configs
 COPY configs/*.xml /opt/tomcat/conf/
-COPY utils /opt/utils
+COPY configs/*.properties /root/.intermine/
+COPY scripts/intermine-entry.sh /opt/bin/
 
 # Create volume and environment var
-VOLUME /data
-ENV HOME=/data \
-    CATALINA_OUT=/data/catalina.logs \
+VOLUME /data /intermine
+ENV CATALINA_OUT=/root/catalina.logs \
     ANT_HOME=/opt/ant \
     ANT_OPTS="-Dfile.encoding=utf-8" \
     JAVA_OPTS="$JAVA_OPTS -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true" \
     PSQL_HOST=postgres \
-    PATH=/opt/utils:/opt/ant/bin:$PATH
+    PATH=/opt/bin:/opt/ant/bin:$PATH
 
 # Exec on start
 ENTRYPOINT ["intermine-entry.sh"]
