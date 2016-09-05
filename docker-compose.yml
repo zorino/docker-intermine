@@ -1,27 +1,28 @@
-webapp:
+main:
   build: .
-  dockerfile: Dockerfile.webapp
-  ports:
-   - "8888:8888"
+  dockerfile: Dockerfile.main
   environment:
-   - MINE_NAME=$MINE_NAME
-   - PSQL_USER=intermine
-   - PSQL_PWD=intermine0312
-   - PSQL_DB=intermine
-   - PSQL_DB_ITEMS=intermine-items
-   - PSQL_DB_USER=intermine-userprofile
-   - TOMCAT_USER=tomcat
-   - TOMCAT_PWD=tomcat0312
-   - TOMCAT_PORT=8888
-  volumes_from:
-   - data
-  links:
-   - postgres
-data:
-  image: centos:centos7
+    - MINE_NAME=${MINE_NAME}
+    - DB_USER=${MINE_NAME}
+    - DB_PWD=intermine0312
+    - DB_MAIN=${MINE_NAME}
+    - DB_ITEMS=${MINE_NAME}-items
+    - DB_PROFILE=${MINE_NAME}-userprofile
   volumes:
-    - "$DATA_DIR:/data"
-    - "$INTERMINE_DIR:/intermine"
-  entrypoint: ["tail", "-f", "/dev/null"]
+    - "${DATA_DIR}:/data"
+    - "${INTERMINE_DIR}:/intermine"
+  links:
+    - postgres
+    - tomcat
+tomcat:
+  build: .
+  dockerfile: Dockerfile.tomcat
+  #environment:
+  #  - TOMCAT_USER=tomcat
+  #  - TOMCAT_PWD=tomcat0312
+  ports:
+    - "8080:8080"
+  links:
+    - postgres
 postgres:
   image: postgres

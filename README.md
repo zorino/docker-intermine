@@ -7,37 +7,42 @@ Forked from [zorino/docker-intermine](https://github.com/zorino/docker-intermine
 
 ### Prerequisities
 
-docker and docker-compose
+Required software: ```docker``` & ```docker-compose```
 
 ### Quick install malariamine demo
 
-This will build the malariamine demo project from 3 containers.
-
-```
+1. Download this repository:
+```shell
 git clone https://github.com/gcornut/docker-intermine.git
+```
+2. Download intermine and setup a working malariamine instance (without any integrated data)
+```shell
 cd docker-intermine/malariamine-demo
 ./docker-configure-run.sh
-# Once tomcat is running :
-./malariamine-build.sh
-xdg-open http://localhost:8088/malariamine
 ```
+3. *(Optional)* Integrate demo data into malariamine (only once the previous script has finished its setup)
+```shell
+./malariamine-integrate-data.sh
+```
+4. Open http://localhost:8080/malariamine to see the result
 
 ## Detailed usage
 
 ### Repository content
 
 ```
-├── configs                        -> configuration files for intermine
-├── docker-compose.yml             -> docker compose configuration
-├── Dockerfile.webapp              -> intermine webapp docker container configuration
+├── configs                            -> configuration files for intermine
+├── docker-compose.yml                 -> docker compose configuration
+├── Dockerfile.main                    -> intermine docker container configuration
+├── Dockerfile.tomcat                  -> tomcat docker container configuration
 ├── malariamine-demo
-│   ├── docker-configure-run.sh    -> script configuring and launching a malariamine demon container
-│   └── malariamine-build.sh       -> script launching data integration inside malariamine demo container
-├── README.md                      -> this file
+│   ├── docker-configure-run.sh        -> script configuring and launching a malariamine demon container
+│   └── malariamine-integrate-data.sh  -> script launching data integration inside malariamine demo container
+├── README.md                          -> this file
 └── scripts
-    ├── intermine-entry.sh         -> startup script for intermine webapp container
-    ├── launch-bash.sh             -> script launching a bash shell from within the intermine webapp container
-    └── sample-launch-docker.sh    -> sample script
+    ├── intermine-entry.sh             -> startup script for intermine container
+    ├── launch-bash.sh                 -> script launching a bash shell from within the intermine container
+    └── sample-launch-docker.sh        -> sample script
 ```
 
 ### Intermine container configuration

@@ -2,7 +2,7 @@
 # Connect to malariamine docker container launch data integration, postprocess and web app deployment
 
 export MINE_NAME=malariamine
-WEBAPP_CONTAINER_ID=$(docker ps | grep ${MINE_NAME}_webapp | cut -f1 -d$' ')
+WEBAPP_CONTAINER_ID=$(docker ps | grep ${MINE_NAME}_main | cut -f1 -d$' ')
 [ -z "$WEBAPP_CONTAINER_ID" ] && {
   echo "No malariamine docker container running. "
   echo "Please run ./docker-configure-run.sh. Exiting."
@@ -16,7 +16,7 @@ docker_exec() {
 }
 
 # Verify that tomcat is up and running inside malariamine container
-docker_exec curl -sI localhost:8888 &> /dev/null || {
+docker_exec curl -sI tomcat:8080 &> /dev/null || {
   echo "Tomcat is not responding in the malaria mine docker container. "
   echo "Please make sure tomcat is running and re-run this script. Exiting."
   exit 1
@@ -25,11 +25,7 @@ docker_exec curl -sI localhost:8888 &> /dev/null || {
 # Clean & build database
 docker_exec ant -f /intermine/$MINE_NAME/dbmodel/build.xml clean build-db
 # Integrate sources
-docker_exec ant -f /intermine/$MINE_NAME/integrate/build.xml -Dsource=uniprot-malaria -v
-docker_exec ant -f /intermine/$MINE_NAME/integrate/build.xml -Dsource=malaria-gff -v
-docker_exec ant -f /intermine/$MINE_NAME/integrate/build.xml -Dsource=malaria-chromosome-fasta -v
-docker_exec ant -f /intermine/$MINE_NAME/integrate/build.xml -Dsource=entrez-organism -v
-docker_exec ant -f /intermine/$MINE_NAME/integrate/build.xml -Dsource=update-publications -v
+docker_exec ant -f /intermine/$MINE_NAME/integrate/build.xml -Dsource=all -v
 # Postprocess
 docker_exec ant -f /intermine/$MINE_NAME/postprocess/build.xml -v
 # Clean & build user profiles

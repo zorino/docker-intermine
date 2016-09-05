@@ -8,14 +8,17 @@ set -e
 # - Configure MalariaMine (project.xml)
 # - Prepare MalariaMine data
 
-# Delete docker malariamine containers:
-#   $ docker rm malariamine_webapp_1 malariamine_data_1 malariamine_postgres_1
-# Delete docker malariamine image:
-#   $ docker rmi -f malariamine_webapp
+# Delete all malariamine related docker containers & images:
+#     $ docker stop $(docker ps -a | grep malariamine | cut -f1 -d$' ')
+#     $ docker rm $(docker ps -a | grep malariamine | cut -f1 -d$' ') &&
+#     $ docker rmi $(docker images | grep malariamine | tr -s ' ' | cut -f3 -d$' ' )
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export INTERMINE_DIR=$DIR/intermine
+
+# Required environment variables for docker-intermine
 export MINE_NAME=malariamine
+export INTERMINE_DIR=$DIR/intermine
+export DATA_DIR=$DIR/data
 
 # clone intermine repo
 if [ ! -d "$INTERMINE_DIR" ]; then
@@ -25,7 +28,7 @@ else
 fi
 
 # malariamine project dir
-MINE_DIR=$INTERMINE_DIR/malariamine
+MINE_DIR=$INTERMINE_DIR/$MINE_NAME
 [ -d "$MINE_DIR" ] || {
   # create mine
   cd $INTERMINE_DIR
@@ -37,7 +40,6 @@ MINE_DIR=$INTERMINE_DIR/malariamine
 }
 
 # prepare malaria data from archive
-export DATA_DIR=$DIR/data
 [ -d "$DATA_DIR" ] || {
   mkdir $DATA_DIR
   cp $INTERMINE_DIR/bio/tutorial/malaria-data.tar.gz $DATA_DIR/
