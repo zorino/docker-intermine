@@ -25,4 +25,4 @@ tomcat:
   links:
     - postgres
 postgres:
-  image: postgres
+  image: postgres:9.4

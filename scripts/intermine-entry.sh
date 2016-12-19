@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 LOG_FILE=/data/docker-intermine.log
 [ -f "$LOG_FILE" ] && rm $LOG_FILE
