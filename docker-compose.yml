@@ -15,14 +15,24 @@ main:
     - postgres
     - tomcat
 tomcat:
-  build: .
-  dockerfile: Dockerfile.tomcat
+  image: tomcat:7-alpine
   #environment:
   #  - TOMCAT_USER=tomcat
   #  - TOMCAT_PWD=tomcat0312
+  environment:
+    - JAVA_OPTS=-Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true
+    - JVM_OPTS=-Xmx3g -Xms3g -XX:MaxPermSize=1024m
   ports:
     - "8080:8080"
+  volumes:
+    - "./configs/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml"
   links:
     - postgres
 postgres:
-  image: postgres:9.4
+  image: postgres:9.4-alpine
+  command: postgres -c config_file=/etc/postgresql.conf
+  volumes:
+    - "./configs/postgresql.conf:/etc/postgresql.conf"
+    - "${PG_DATA_DIR}:/var/lib/postgresql/data"
+
+
