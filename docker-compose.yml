@@ -1,24 +1,38 @@
-webapp:
+main:
   build: .
-  dockerfile: Dockerfile.webapp
-  ports:
-   - "8088:8088"
+  dockerfile: Dockerfile.main
   environment:
-   - PSQL_USER=interminer
-   - PSQL_PWD=interminer0312
-   - TOMCAT_USER=tomcat
-   - TOMCAT_PWD=tomcat0312
-   - TOMCAT_PORT=8088
-   - PSQL_DB_NAME=malariamine
-   - DB_NAME=malariamine
-  volumes_from:
-   - data
-  links:
-   - postgres
-data:
-  image: centos:centos7
+    - MINE_NAME=${MINE_NAME}
+    - DB_USER=${MINE_NAME}
+    - DB_PWD=intermine0312
+    - DB_MAIN=${MINE_NAME}
+    - DB_ITEMS=${MINE_NAME}-items
+    - DB_PROFILE=${MINE_NAME}-userprofile
   volumes:
-    - ./malariamine:/data
-  entrypoint: ["tail", "-f", "/dev/null"]
+    - "${DATA_DIR}:/data"
+    - "${INTERMINE_DIR}:/intermine"
+  links:
+    - postgres
+    - tomcat
+tomcat:
+  image: tomcat:7-alpine
+  #environment:
+  #  - TOMCAT_USER=tomcat
+  #  - TOMCAT_PWD=tomcat0312
+  environment:
+    - JAVA_OPTS=-Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true
+    - JVM_OPTS=-Xmx3g -Xms3g -XX:MaxPermSize=1024m
+  ports:
+    - "8080:8080"
+  volumes:
+    - "./configs/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml"
+  links:
+    - postgres
 postgres:
-  image: postgres
+  image: postgres:9.4-alpine
+  command: postgres -c config_file=/etc/postgresql.conf
+  volumes:
+    - "./configs/postgresql.conf:/etc/postgresql.conf"
+    - "${PG_DATA_DIR}:/var/lib/postgresql/data"
+
+

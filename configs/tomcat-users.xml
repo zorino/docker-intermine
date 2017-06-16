@@ -19,24 +19,13 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
               version="1.0">
-<!--
-  NOTE:  By default, no user is included in the "manager-gui" role required
-  to operate the "/manager/html" web application.  If you wish to use this app,
-  you must define such a user - the username and password are arbitrary.
--->
-<!--
-  NOTE:  The sample user and role entries below are wrapped in a comment
-  and thus are ignored when reading this file. Do not forget to remove
-  <!.. ..> that surrounds them.
--->
 
   <role rolename="tomcat"/>
   <role rolename="manager-gui"/>
   <role rolename="manager-jmx"/>
   <role rolename="manager-script"/>
-  <user username="TOMCAT_USER" password="TOMCAT_PWD" roles="tomcat,manager-jmx,manager-script,manager-gui"/>
   <role rolename="admin-gui"/>
-  <user username="admin" password="admin0312" roles="admin-gui"/>
+
+  <user username="tomcat" password="tomcat" roles="tomcat,manager-jmx,manager-script,manager-gui,admin-gui"/>
 
 </tomcat-users>
-

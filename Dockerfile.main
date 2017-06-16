@@ -1,0 +1,26 @@
+FROM alpine
+
+MAINTAINER gcornut <gcornut@gmail.com>
+
+# Update & install java & postgres-client
+RUN apk add --no-cache --update-cache curl bash openjdk7 postgresql-client
+
+# Install ant
+RUN mkdir /opt \
+ && cd /opt \
+ && curl http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz \
+    | tar xvz \
+ && mv apache-ant-1.8.4 ant
+
+# Copy configuration files & scripts
+COPY configs/*.properties /root/.intermine/
+COPY scripts/intermine-entry.sh /opt/bin/
+
+VOLUME /data /intermine
+
+ENV ANT_HOME=/opt/ant \
+    ANT_OPTS="-Dfile.encoding=utf-8" \
+    JAVA_OPTS="$JAVA_OPTS -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true" \
+    PATH=/opt/bin:/opt/ant/bin:$PATH
+
+ENTRYPOINT ["intermine-entry.sh"]
